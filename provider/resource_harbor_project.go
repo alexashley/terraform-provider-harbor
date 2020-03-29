@@ -22,7 +22,6 @@ func resourceProject() *schema.Resource {
 				Optional: true,
 				Default:  "true",
 			},
-
 			"project_id": {
 				Type:     schema.TypeInt,
 				Computed: true,
