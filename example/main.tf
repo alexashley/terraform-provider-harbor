@@ -17,3 +17,9 @@ resource "harbor_robot_account" "robot" {
   }
 }
 
+resource "harbor_registry" "registry" {
+  name = "registry"
+  type = "docker-hub"
+  endpoint_url = "http://hub.docker.com"
+}
+

@@ -89,9 +89,18 @@ func (client *Client) sendRequest(request *http.Request) ([]byte, string, error)
 	}
 
 	if response.StatusCode >= 400 {
+		var prettyJSON bytes.Buffer
+		err := json.Indent(&prettyJSON, body, "", "  ")
+		var jsonString string
+		if err != nil {
+			jsonString = ""
+		} else {
+			jsonString = string(prettyJSON.Bytes())
+		}
 		return nil, "", &APIError{
-			Code:    response.StatusCode,
-			Message: fmt.Sprintf("error sending %s request to %s: %s", request.Method, request.URL.Path, response.Status),
+			Code: response.StatusCode,
+			Message: fmt.Sprintf(`error sending %s request to %s: %s
+%s`, request.Method, request.URL.Path, response.Status, jsonString),
 		}
 	}
 
